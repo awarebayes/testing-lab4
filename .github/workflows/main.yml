@@ -1,4 +1,7 @@
-name: lab4
+name: Bun install & run tests
+run-name: ${{ github.actor }} is running tests 🚀
+on: [push]
+
 jobs:
   my-job:
     name: bdd-e2e
@@ -9,5 +12,15 @@ jobs:
 
       - run: bun install
       - run: bun run src/index.tsx &
+        env:
+          KV_URL: ${{ secrets.KV_URL }}
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{secrets.KV_REST_API_TOKEN}}
+          KV_REST_API_READ_ONLY_TOKEN: ${{secrets.KV_REST_API_READ_ONLY_TOKEN}}
+          MAILGUN_API_KEY: ${{secrets.MAILGUN_API_KEY}}
+          MAILGUN_API_DOMAIN: ${{secrets.MAILGUN_API_DOMAIN}}
+          MAILSLURP_CLIENT: ${{secrets.MAILSLURP_CLIENT}}
+          MAILSLURP_EMAIL_URL: ${{secrets.MAILSLURP_EMAIL_URL}}
+          MAILSLURP_INBOX_ID: ${{secrets.MAILSLURP_INBOX_ID}}
       - run: sleep 5
       - run: bunx cucumber
