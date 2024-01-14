@@ -30,6 +30,27 @@ let send_2fa_email = async (email: string, token: string) => {
   }).then((x) => x.json());
 };
 
+function timingSafeStringEqual(a: string, b: string): boolean {
+  const bufferA = Buffer.from(a);
+  const bufferB = Buffer.from(b);
+
+  const maxLength = Math.max(bufferA.length, bufferB.length);
+
+  // Pad the shorter buffer with zeros
+  const paddedBufferA = Buffer.concat([
+    Buffer.alloc(maxLength - bufferA.length, 0),
+    bufferA,
+  ]);
+
+  const paddedBufferB = Buffer.concat([
+    Buffer.alloc(maxLength - bufferB.length, 0),
+    bufferB,
+  ]);
+
+  // Use timingSafeEqual to perform constant time comparison
+  return timingSafeEqual(paddedBufferA, paddedBufferB);
+}
+
 const app = new Elysia()
   .use(html())
   .get("/", () => (
@@ -63,12 +84,7 @@ const app = new Elysia()
         set.redirect = "/login-failed?reason=no-user";
         return;
       }
-      if (
-        !timingSafeEqual(
-          Buffer.from(password.password),
-          Buffer.from(body.password),
-        )
-      ) {
+      if (!timingSafeStringEqual(password.password, body.password)) {
         set.redirect = "/login-failed?reason=wrong-password";
         return;
       }
@@ -135,12 +151,7 @@ const app = new Elysia()
       }
       let original_token = two_factor_tokens[query.email];
       let entered_token = body.two_factor;
-      if (
-        !timingSafeEqual(
-          Buffer.from(original_token),
-          Buffer.from(entered_token),
-        )
-      ) {
+      if (!timingSafeStringEqual(original_token, entered_token)) {
         set.redirect = "/login-failed?reason=2fa-token-mismatch";
         return;
       }

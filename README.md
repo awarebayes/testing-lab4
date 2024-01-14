@@ -1,15 +1,13 @@
-# Elysia with Bun runtime
+# Lab 4 Modeling
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+Server is written in bun + elysia.
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
+Simple user login with 2fa.
 
-Open http://localhost:3000/ with your browser to see the result.
+User passwords and tokens are stored at Vercel KV.
+
+Messages are sent with Mailgun.
+
+Messages are received with MailSlurp.
+
+BDD E2E tests with cucumber.js
