@@ -9,8 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
-
-      - run: bun install cucumber
       - run: bun install
       - run: bun run src/index.tsx &
         env:
@@ -24,7 +22,7 @@ jobs:
           MAILSLURP_EMAIL_URL: ${{secrets.MAILSLURP_EMAIL_URL}}
           MAILSLURP_INBOX_ID: ${{secrets.MAILSLURP_INBOX_ID}}
       - run: sleep 5
-      - run: bunx cucumber
+      - run: bun run test
         working-directory: /home/runner/work/testing-lab4/testing-lab4/
         env:
           KV_URL: ${{ secrets.KV_URL }}
