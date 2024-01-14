@@ -1,0 +1,13 @@
+name: lab4
+jobs:
+  my-job:
+    name: bdd-e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: oven-sh/setup-bun@v1
+
+      - run: bun install
+      - run: bun run src/index.tsx &
+      - run: sleep 5
+      - run: bunx cucumber
