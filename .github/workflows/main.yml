@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1
-
+        run: bun install cucumber
       - run: bun install
       - run: bun run src/index.tsx &
         env:
